@@ -12,6 +12,9 @@ module.exports.Signup = async(req,res,next) =>{
         if(!email || !password || !username){
             return res.json({message:'Please Fill All Fields'})
         }
+        if(password.length <= 8){
+            return res.json({message:'Password must contains atleast 8 characters'})
+        }
         const user = await User.create({email,password,username,date})
         const token = createSecretToken(user._id)
         res.cookie('token',token,{
